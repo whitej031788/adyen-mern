@@ -6,13 +6,13 @@ export default class AdyenDropIn extends Component {
     super(props);
 
     this.state = {
-      amount: '',
-      currency: '',
-      countryCode: '',
+      amount: '5000',
+      currency: 'USD',
+      countryCode: 'US',
       merchantAccount: 'JamieAdyenTestECOM',
       channel: 'Web',
       error: '',
-      reference: '',
+      reference: '58734gf73',
       returnUrl: 'http://localhost:3000/thank-you',
       paymentMethods: []
     }
@@ -46,7 +46,7 @@ export default class AdyenDropIn extends Component {
   makePayment(data) {
     let self = this;
 
-    axios.post(this.paymentUrl, this.formatPaymentData())
+    axios.post(this.paymentUrl, this.formatPaymentData(data.paymentMethod))
     .then((response) => {
       console.log(response);
     })
@@ -57,8 +57,6 @@ export default class AdyenDropIn extends Component {
   }
 
   makeDetailsCall(data) {
-    let self = this;
-
     console.log(data);
   }
 
@@ -76,6 +74,7 @@ export default class AdyenDropIn extends Component {
         originKey: "pub.v2.8015830904573463.aHR0cDovL2xvY2FsaG9zdDozMDAw.89NTrtKp5euwF6xYxZD4xrlt8QRVLhQMCEUpr_2n1yM", // Your website's Origin Key. To find out how to generate one, see https://docs.adyen.com/user-management/how-to-get-an-origin-key.
         paymentMethodsResponse: response.data // The payment methods response returned in step 1.
       };
+
       const checkout = new window.AdyenCheckout(configuration);
 
       const dropin = checkout
@@ -159,7 +158,7 @@ export default class AdyenDropIn extends Component {
     obj.merchantAccount = this.state.merchantAccount;
     obj.paymentMethod = paymentMethod;
     obj.returnUrl = this.state.returnUrl;
-    obj.reference = this.reference;
+    obj.reference = this.state.reference;
 
     return obj;
   }

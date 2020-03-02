@@ -8,7 +8,7 @@ const ADYEN_PAY_URL = 'https://checkout-test.adyen.com/v51/payments';
 
 router.post('/adyen-generate-pay-link', (req, res, next) => {
   const adyenData = req.body;
-
+  console.log(adyenData);
   axios.post(ADYEN_PAY_LINK_URL, adyenData, {headers: {'x-API-key':process.env.ADYEN_API_KEY}})
   .then((response) => {
     res.json(response.data);
@@ -31,8 +31,8 @@ router.post('/adyen-payment-methods', (req, res, next) => {
 });
 
 router.post('/adyen-pay', (req, res, next) => {
-  paymentData = req.body;
-
+  const paymentData = req.body;
+  console.log(paymentData);
   axios.post(ADYEN_PAY_URL, paymentData, {headers: {'x-API-key':process.env.ADYEN_API_KEY}})
   .then((response) => {
     console.log(response);
