@@ -15,10 +15,11 @@ export default class AdyenPayByLink extends Component {
       shopperReference: '',
       shopperEmail: '',
       shopperLocale: '',
-      paymentLink: ''
+      paymentLink: '',
+      error: ''
     }
 
-    this.payLinkUrl = '/api/generate-pay-link';
+    this.payLinkUrl = '/api/adyen-generate-pay-link';
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -42,6 +43,7 @@ export default class AdyenPayByLink extends Component {
     })
     .catch((error) => {
       console.log(error.response);
+      self.setState({error: error.response.data.message});
     });
   }
 
@@ -122,6 +124,11 @@ export default class AdyenPayByLink extends Component {
                 name="description"
                 />
             </div>
+            {this.state.error &&
+              <div className="col-md-12 alert-danger mb-3">
+                {this.state.error}
+              </div>
+            }
             <div className="form-group">
               <input type="submit" value="Generate Link" className="btn btn-primary" />
             </div>
